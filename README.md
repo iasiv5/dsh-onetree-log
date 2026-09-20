@@ -80,6 +80,18 @@ node scripts/e2e.mjs           # 宿主半身端到端
 无构建步骤：`lib/` 即发布产物（与 dsh-surf / dsh-obmc-web 一致的薄插件风格）。
 宿主半身需要 Node ≥22.15（zlib 原生 zstd；旧版本自动回退系统 `zstd -dc`）。
 
+## 发版
+
+npm 包走 GitHub Actions OIDC Trusted Publishing（无静态 token，自带 provenance）：
+
+```bash
+npm version patch            # 或 minor / major：改 package.json 并打 v* tag
+git push --follow-tags       # Actions 自动发布到 @inventec/dsh-onetree-log
+```
+
+信任关系：package `@inventec/dsh-onetree-log` ↔ workflow `publish.yml` @ `iasiv5/dsh-onetree-log`，
+registry 元数据里发布者显示为 GitHub Actions 即 OIDC 生效。
+
 ## 第二阶段扩展点（逐域解析）
 
 内核已按 section 预留挂钩，第二阶段只需：
