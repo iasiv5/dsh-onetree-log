@@ -63,7 +63,7 @@ scripts/e2e.mjs  宿主半身端到端自测（mock ctx + 临时 HTTP 服务）
 
 ```bash
 # 市场（发布后）
-dsh plugin --profile web add @iasiv5/dsh-onetree-log
+dsh plugin --profile web add @inventec/dsh-onetree-log
 # 源码本地（开发模式）
 dsh plugin --profile web add link:/path/to/dsh-onetree-log
 ```
