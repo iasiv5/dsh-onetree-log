@@ -1,0 +1,55 @@
+{
+  "name": "@iasiv5/dsh-onetree-log",
+  "version": "0.1.0",
+  "description": "AMI MegaRAC OneTree 一键日志（OpenBMC dreport dump）上传与分析框架：设置面板「OneTree 日志」上传压缩包或登记服务器本地路径，安全解包、自动探测 dump 根、文件清单分类，为第二阶段逐域解析提供内核。",
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "author": "iasiv5",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iasiv5/dsh-onetree-log.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22.15.0"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "ami",
+    "megarac",
+    "onetree",
+    "openbmc",
+    "bmc",
+    "ffdc",
+    "dreport",
+    "log-analysis",
+    "settings-section"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-layout"
+      ]
+    }
+  }
+}
