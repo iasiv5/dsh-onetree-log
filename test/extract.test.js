@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import path from 'node:path'
 import zlib from 'node:zlib'
+import { execFileSync } from 'node:child_process'
 import { Readable } from 'node:stream'
 import { extractTar, extractArchive, isArchive, archiveFormat } from '../lib/extract.js'
 import { buildTar, tmpdir } from './fixtures.js'
@@ -96,5 +97,40 @@ test('不支持的扩展名报清晰错误', async () => {
     const p = path.join(dir, 'x.rar')
     fs.writeFileSync(p, Buffer.alloc(10))
     await assert.rejects(() => extractArchive(p, path.join(dir, 'out')), /不支持的压缩格式/)
+  } finally { fs.rmSync(dir, { recursive: true, force: true }) }
+})
+
+test('zip 内符号链接条目：解包后置扫描，清除并整体拒绝', async () => {
+  const dir = tmpdir('onetree-z1-')
+  try {
+    const evil = path.join(dir, 'evil.zip')
+    // 用 python3 zipfile 造带 symlink 条目的 zip（本机无 zip CLI 也可复现；
+    // create_system=3 + external_attr 高位 S_IFLNK 是 zipfile 写符号链接的
+    // 标准姿势，unzip/bsdtar 解包时会落成真实符号链接）
+    const script = [
+      "import zipfile, sys",
+      "z = zipfile.ZipFile(sys.argv[1], 'w')",
+      "z.writestr('plain.log', 'hello log\\n')",
+      "zi = zipfile.ZipInfo('sub/link.log')",
+      "zi.create_system = 3",
+      "zi.external_attr = (0o120777 << 16)",
+      "z.writestr(zi, '/etc/passwd')",
+      "z.close()",
+    ].join('\n')
+    execFileSync('python3', ['-c', script, evil])
+    const out = path.join(dir, 'out')
+    await assert.rejects(() => extractArchive(evil, out), /符号链接/)
+    // 关键：拒绝后磁盘上不得残留可跟链的入口
+    let hadSymlink = false
+    const stack = [out]
+    while (stack.length > 0) {
+      const cur = stack.pop()
+      if (!fs.existsSync(cur)) continue
+      for (const e of fs.readdirSync(cur, { withFileTypes: true })) {
+        if (e.isSymbolicLink()) hadSymlink = true
+        else if (e.isDirectory()) stack.push(path.join(cur, e.name))
+      }
+    }
+    assert.equal(hadSymlink, false, 'rejected dump must not keep symlink entries on disk')
   } finally { fs.rmSync(dir, { recursive: true, force: true }) }
 })

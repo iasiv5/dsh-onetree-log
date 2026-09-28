@@ -27,8 +27,9 @@ AMI MegaRAC OneTree 一键日志（OpenBMC dreport dump）上传与分析框架 
 
 ## 安全
 
-- 解包三防：zip-slip（绝对路径/`..`/NUL）、符号链接与硬链接条目直接拒绝、
-  单文件 1GiB / 总量 2GiB / 条目 20k 上限
+- 解包三防：zip-slip（绝对路径/`..`/NUL）、符号链接与硬链接条目直接拒绝
+  （tar 路径解析期拒绝；zip 路径经系统工具解包后置扫描，发现符号链接
+  清除并整体拒绝）、单文件 1GiB / 总量 2GiB / 条目 20k 上限
 - 文件预览路径二次校验（resolveFile 拒绝逃逸）
 - 信任围栏与 dsh-obmc-web 同款：Host 须 loopback 或部署信任域、
   Sec-Fetch-Site 不得 cross-site、Origin 须同 Host 主机名
