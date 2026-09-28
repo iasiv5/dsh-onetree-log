@@ -158,12 +158,16 @@ test('DumpStore：ingestArchive → detail → remove 全链路', async () => {
     assert.equal(store2.list().length, 1)
     assert.equal(store2.list()[0].id, meta.id)
 
-    // resolveFile 拒绝逃逸
+    // resolveFile 拒绝逃逸；合法文件名中的 ".." 子串不误伤
     assert.throws(() => store.resolveFile(meta.id, '../x'), /非法/)
+    assert.throws(() => store.resolveFile(meta.id, 'a/../b.log'), /非法/)
     assert.ok(store.resolveFile(meta.id, 'selinfo.log').endsWith('selinfo.log'))
+    fs.writeFileSync(path.join(meta.rootDir, 'a..b.log'), 'ok')
+    assert.equal(store.resolveFile(meta.id, 'a..b.log'), path.join(meta.rootDir, 'a..b.log'))
 
     // path-archive 删除不动原文件
     assert.equal(store.remove(meta.id), true)
+    assert.equal(store.remove(meta.id), false) // 不存在的 id：返回 false（HTTP 层据此回 404）
     assert.ok(fs.existsSync(archivePath))
     assert.equal(store.list().length, 0)
   } finally {
