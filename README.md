@@ -81,6 +81,22 @@ node scripts/e2e.mjs           # 宿主半身端到端
 无构建步骤：`lib/` 即发布产物（与 dsh-surf / dsh-obmc-web 一致的薄插件风格）。
 宿主半身需要 Node ≥22.15（zlib 原生 zstd；旧版本自动回退系统 `zstd -dc`）。
 
+## DSH 版本兼容
+
+- **版本门槛**：`0.2.1` 及以上宿主需 **≥0.1.4**——0.2.1 起宿主移除 `webRuntime`
+  服务（改名 `webStartup`），0.1.0–0.1.3 在其上会静默失效（插件 pending、路由
+  404）。≥0.1.4 采用非抛双服务解析（`webStartup` → `webRuntime` → `[]`），在
+  `0.1.x`–`0.2.1-rc.x` 宿主全线可用。本包不声明 `@deepseek-ai/dsh` 家族 peer，
+  宿主版本守卫对其不设门槛，兼容范围以本节与市场文案为准。
+- **依赖的宿主契约面**：`webServer.register`（prefix 路由）、客户端
+  `settings.section` slot、`slots` 客户端服务、`window.__ModuleLoader__` 启动
+  契约。数据自持在插件自有目录（`ONETREE_LOG_DIR` 可覆盖），不触宿主
+  settings/credentials。
+- **失效模式**：契约若在后续宿主版本变更，症状为设置面板消失（客户端 console
+  报错）或路由 404，不会损坏宿主、不会波及已落盘的 dumps 数据。
+- **实测口径**：DSH `0.2.1-rc.2` web 实例 link 装机即线上，`GET /onetree-log/dumps`
+  200（2026-10-19 复核）；源码级适配审计对照 `0.2.1-rc.2` 宿主逐点核证。
+
 ## 发版
 
 npm 包走 GitHub Actions OIDC Trusted Publishing（无静态 token，自带 provenance）：
