@@ -1,0 +1,20 @@
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="dsh-onetree-log">
+  <!-- dsh-onetree-log：原木横截面年轮（log 双关 = 日志），
+       三圈年轮蓝青相间 + 轮上木结 = OneTree dump 日志剖析 -->
+  <circle cx="18" cy="18" r="12.2" stroke="url(#b)" stroke-width="2.7" fill="none"/>
+  <circle cx="18" cy="18" r="7.9" stroke="url(#t)" stroke-width="2.4" fill="none" opacity="0.9"/>
+  <circle cx="18" cy="18" r="3.6" stroke="url(#b)" stroke-width="2.2" fill="none" opacity="0.95"/>
+  <circle cx="18" cy="18" r="1.2" fill="url(#t)"/>
+  <circle cx="21.8" cy="10.6" r="1.25" fill="url(#t)"/>
+  <path d="M24.6 11.4L28.6 7.4" stroke="url(#b)" stroke-width="2.4" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="b" x1="5.8" y1="5.8" x2="30.2" y2="30.2" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#69B9FF"/>
+      <stop offset="1" stop-color="#324DE2"/>
+    </linearGradient>
+    <linearGradient id="t" x1="10.1" y1="10.1" x2="25.9" y2="25.9" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#45E7A4"/>
+      <stop offset="1" stop-color="#05909D"/>
+    </linearGradient>
+  </defs>
+</svg>
