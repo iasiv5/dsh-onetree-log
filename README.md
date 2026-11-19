@@ -1,4 +1,5 @@
 # dsh-onetree-log
+![DSH](https://img.shields.io/badge/DSH-0.2.2--rc.5%20verified-2563eb)
 
 AMI MegaRAC OneTree 一键日志（OpenBMC dreport dump）上传与分析框架 —— DSH 插件。
 
