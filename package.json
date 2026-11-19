@@ -1,6 +1,6 @@
 {
   "name": "@inventec/dsh-onetree-log",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "OneTree/dreport 日志包上传解包，14 域清单与预览；可登记服务器本地路径。版本无关，详见仓库。",
   "icon": "./icon.svg",
   "type": "module",
