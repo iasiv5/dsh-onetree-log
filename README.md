@@ -1,5 +1,5 @@
 # dsh-onetree-log
-![DSH](https://img.shields.io/badge/DSH-0.2.2--rc.5%20verified-2563eb)
+[![CI](https://img.shields.io/github/actions/workflow/status/iasiv5/dsh-onetree-log/ci.yml?branch=main&label=CI)](https://github.com/iasiv5/dsh-onetree-log/actions/workflows/ci.yml) [![npm](https://img.shields.io/npm/v/@inventec/dsh-onetree-log?label=npm)](https://www.npmjs.com/package/@inventec/dsh-onetree-log) [![License](https://img.shields.io/github/license/iasiv5/dsh-onetree-log?label=License)](./LICENSE) ![DSH](https://img.shields.io/badge/DSH-0.2.2--rc.5%20verified-2563eb)
 
 AMI MegaRAC OneTree 一键日志（OpenBMC dreport dump）上传与分析框架 —— DSH 插件。
 
